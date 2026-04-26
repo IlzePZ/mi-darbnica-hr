@@ -246,6 +246,27 @@ body{
   font-size:11px;color:#94a3b8;
 }
 
+/* EXAMPLE BLOCKS */
+.example-label{
+  font-size:11px;font-weight:700;color:#059669;
+  letter-spacing:.05em;margin-top:14px;margin-bottom:6px;
+  display:flex;align-items:center;gap:6px;
+}
+.example-label::before{
+  content:'▶';font-size:8px;
+}
+.example-block{
+  flex:1;background:#f0fdf4;border-radius:8px;
+  padding:12px 14px;font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;line-height:1.55;color:#166534;
+  white-space:pre-wrap;word-break:break-word;
+  border:1px solid #bbf7d0;
+}
+.example-note{
+  font-size:11px;color:var(--gray);font-style:italic;
+  margin-top:6px;
+}
+
 @media(max-width:480px){
   .header h1{font-size:24px;}
   .tab-btn{padding:6px 12px;font-size:12px;}
@@ -273,7 +294,7 @@ body{
 
 <!-- ========== TAB 0: PROMPTS ========== -->
 <div class="tab-panel active" id="panel-0">
-<p class="intro">Atveriet promptu, nospiediet <strong>Kopēt</strong> un ielīmējiet Claude, ChatGPT vai Gemini. Teksts <strong>[KVADRĀTIEKAVĀS]</strong> ir maināmie lielumi — aizstājiet ar savu informāciju.</p>
+<p class="intro">Katram promptam ir divas versijas: <strong>veidne</strong> ar maināmiem lielumiem [KVADRĀTIEKAVĀS] un <strong style="color:#059669">gatavs piemērs</strong> ar aizpildītiem datiem — kopē un ielīmē tieši Claude, ChatGPT vai Gemini.</p>
 
 <!-- ATLASE -->
 <div class="cat-group">
@@ -298,6 +319,22 @@ Tonis: [PROFESIONĀLS / DRAUDZĪGS / RADOŠS]
 Strukturē sludinājumu ar sadaļām: Par uzņēmumu, Amata apraksts, Prasības, Mēs piedāvājam. Izmanto skaidru, konkrētu valodu bez žargona.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p1')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p1ex">Uzraksti darba sludinājumu latviešu valodā šādam amatam:
+
+Amats: Personāla speciālists/-e
+Uzņēmums: ražošanas uzņēmums, 80 darbinieki
+Atrašanās vieta: Rīga
+Darba veids: pilna laika, hibrīds (3 dienas birojā, 2 attālināti)
+Galvenās prasības: pieredze personāla vadībā 2+ gadi, Darba likuma zināšanas, atlases interviju vadīšanas pieredze
+Piedāvājam: veselības apdrošināšana, apmācību budžets, elastīgs darba laiks, 25 atvaļinājuma dienas
+Algas diapazons: 1800–2200 EUR bruto
+Tonis: profesionāls, bet draudzīgs
+
+Strukturē sludinājumu ar sadaļām: Par uzņēmumu, Amata apraksts, Prasības, Mēs piedāvājam. Izmanto skaidru, konkrētu valodu bez žargona.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p1ex')">Kopēt</button>
+</div>
 </div>
 </div>
 
@@ -320,6 +357,25 @@ Rezultātu noformē kā tabulu ar kopvērtējumu (1–10).
 Beigās norādi ieteikumu: kurus kandidātus aicināt uz interviju un kāpēc.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p2')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p2ex">Man ir 3 kandidātu CV grāmatveža amatam.
+Novērtē katru pēc šādiem kritērijiem:
+
+1. Pieredze grāmatvedībā 3+ gadi
+2. Directo vai 1C zināšanas
+3. LR nodokļu likumdošanas zināšanas
+4. Valodas: latviešu un angļu
+5. Gada pārskatu sagatavošanas pieredze
+
+Katram kritērijam piešķir vērtējumu: Atbilst / Daļēji atbilst / Neatbilst.
+Rezultātu noformē kā tabulu ar kopvērtējumu (1–10).
+Beigās norādi ieteikumu: kurus kandidātus aicināt uz interviju un kāpēc.
+
+Kandidātu CV ir šajā sarunā augstāk (vai pievienoti kā fails).</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p2ex')">Kopēt</button>
+</div>
+<div class="example-note">Pirms šī prompta ielīmē CV tekstus no cilnes "CV piemēri".</div>
 </div>
 </div>
 
@@ -343,6 +399,24 @@ a) Ko vērtēt labā atbildē
 b) Ko vērtēt vājā atbildē
 c) Papildjautājumu padziļināšanai</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p3')">Kopēt</button>
+</div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p3ex">Sagatavo 6 kompetencēs balstītus intervijas jautājumus amatam personāla speciālists.
+
+Formāts: STAR (Situācija, Uzdevums, Darbība, Rezultāts).
+Iekļauj jautājumus par šādām kompetencēm:
+- Atlases procesu vadīšana
+- Komandas darbs un komunikācija
+- Problēmu risināšana konfliktsituācijās
+- Stresa noturība daudzuzdevumu vidē
+- Darba likuma praktiska piemērošana
+
+Katram jautājumam pievieno:
+a) Ko vērtēt labā atbildē
+b) Ko vērtēt vājā atbildē
+c) Papildjautājumu padziļināšanai</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p3ex')">Kopēt</button>
 </div>
 </div>
 </div>
@@ -370,6 +444,21 @@ Kad es norādu jauna darbinieka amatu un nodaļu, sagatavo:
 Valoda: latviešu. Tonis: profesionāls, silts.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p4')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — sistēmas prompts</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p4ex">Tu esi Latvijas uzņēmuma HR speciālists. Uzņēmuma profils:
+- Nosaukums: SIA «ProdLine»
+- Nozare: ražošana
+- Darbinieku skaits: 80
+
+Kad es norādu jauna darbinieka amatu un nodaļu, sagatavo:
+1) Nedēļu pa nedēļai onboarding plānu (pārbaudes laiks: 3 mēneši)
+2) Katrai nedēļai: uzdevumi, atbildīgā persona, veiksmes kritēriji
+3) Pirmās dienas e-pastu jaunajam darbiniekam
+4) Mentora instrukciju
+Valoda: latviešu. Tonis: profesionāls, silts.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p4ex')">Kopēt</button>
+</div>
 <div class="prompt-label" style="margin-top:12px">LIETOTĀJA PIEPRASĪJUMS</div>
 <div class="prompt-wrap">
 <div class="prompt-block" id="p4b">Jauns darbinieks: [AMATS], [NODAĻA].
@@ -378,6 +467,15 @@ Tiešais vadītājs: [VĀRDS].
 Mentors: [VĀRDS].
 Sistēmas, kas jāapgūst: [SISTĒMA 1], [SISTĒMA 2].</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p4b')">Kopēt</button>
+</div>
+<div class="example-label">GATAVS PIEMĒRS — lietotāja pieprasījums</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p4bex">Jauns darbinieks: personāla speciālists, HR nodaļa.
+Sākuma datums: 2026. gada 1. septembris.
+Tiešais vadītājs: Anda Kalniņa, HR vadītāja.
+Mentors: Līga Bērziņa, vecākā personāla speciāliste.
+Sistēmas, kas jāapgūst: Directo, CV.lv, e-pasts.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p4bex')">Kopēt</button>
 </div>
 </div>
 </div>
@@ -400,6 +498,21 @@ Tonis: silts, profesionāls, motivējošs.
 Iekļauj praktisku informāciju par pirmo dienu.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p5')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p5ex">Uzraksti sveiciena e-pastu jaunam darbiniekam latviski:
+
+Darbinieks: Kārlis Ozoliņš (amats: personāla speciālists)
+Pirmā darba diena: 2026. gada 1. septembris
+Ierašanās laiks: 9:00
+Kontaktpersona: Līga Bērziņa, vecākā personāla speciāliste
+Ko ņemt līdzi: pase vai ID karte, bankas konta rekvizīti
+Apģērba kods: biznesa ikdienas
+
+Tonis: silts, profesionāls, motivējošs.
+Iekļauj praktisku informāciju par pirmo dienu.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p5ex')">Kopēt</button>
+</div>
 </div>
 </div>
 
@@ -414,6 +527,22 @@ Iekļauj praktisku informāciju par pirmo dienu.</div>
 Atbildi uz jautājumiem par šo politiku tā, kā atbildētu HR speciālists jaunam darbiniekam. Izmanto vienkāršu, skaidru valodu. Ja politikā nav atbildes uz jautājumu, pasaki to tieši — neizdomā.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p6')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p6ex">Šeit ir mūsu uzņēmuma attālinātā darba politika:
+
+1. Attālināti drīkst strādāt darbinieki, kuri nodaļā nostrādājuši vismaz 3 mēnešus.
+2. Attālinātais darbs pieejams līdz 2 dienām nedēļā, iepriekš saskaņojot ar tiešo vadītāju.
+3. Darbiniekam jānodrošina stabils interneta pieslēgums un darba vieta mājās.
+4. Darba laiks attālinātā režīmā ir no 8:30 līdz 17:00, ietverot pusdienas pārtraukumu.
+5. Darbiniekam jābūt sasniedzamam pa telefonu un e-pastu darba laikā.
+6. Attālinātā darba dienas nedrīkst sakrist ar klātienes sanāksmēm vai apmācībām.
+7. Vadītājs var atsaukt attālinātā darba atļauju, ja tiek ietekmēta darba kvalitāte.
+
+Atbildi uz jautājumiem par šo politiku tā, kā atbildētu HR speciālists jaunam darbiniekam. Izmanto vienkāršu, skaidru valodu. Ja politikā nav atbildes uz jautājumu, pasaki to tieši — neizdomā.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p6ex')">Kopēt</button>
+</div>
+<div class="example-note">Pēc ielīmēšanas uzdod jautājumu, piemēram: «Vai es varu strādāt no ārzemēm vienu nedēļu?»</div>
 </div>
 </div>
 </div>
@@ -452,6 +581,33 @@ Struktūra:
 Tonis: profesionāls, objektīvs, motivējošs.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p7')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p7ex">Sagatavo darbinieka novērtēšanas pārskatu latviski.
+
+Darbinieks: vecākais grāmatvedis, finanšu nodaļa
+Novērtēšanas periods: 2025. gada jūlijs — 2026. gada jūnijs
+
+Galvenie sasniegumi:
+- Ieviesa jaunu dokumentu aprites sistēmu Directo
+- Samazināja mēneša slēgšanas laiku par 30%
+- Mentorēja 2 jaunus kolēģus, abi veiksmīgi pabeidza pārbaudes laiku
+
+Pilnveidojamās jomas:
+- Kavē ceturkšņa pārskatu iesniegšanas termiņus (2 no 4 ceturkšņiem)
+- Prezentāciju prasmes vadībai — materiāli precīzi, bet grūti uztverami
+
+Kopvērtējums: Labs
+
+Struktūra:
+1) Ievads
+2) Sasniegumu analīze
+3) Pilnveidojamās jomas ar konstruktīviem ieteikumiem
+4) Mērķi nākamajam periodam
+5) Kopsavilkums
+Tonis: profesionāls, objektīvs, motivējošs.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p7ex')">Kopēt</button>
+</div>
 </div>
 </div>
 
@@ -472,6 +628,20 @@ Kompetences: komunikācija, sadarbība, iniciatīva, kvalitāte, termiņu ievēr
 Katrai versijai iekļauj 1 atvērto jautājumu.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p8')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p8ex">Izveido 360° atgriezeniskās saites aptauju amatam personāla speciālists.
+
+Sagatavo trīs versijas:
+a) Vadītāja vērtējums (8 jautājumi)
+b) Kolēģu vērtējums (6 jautājumi)
+c) Pašnovērtējums (6 jautājumi)
+
+Vērtēšanas skala: 1–5 (1 = nekad, 5 = vienmēr).
+Kompetences: komunikācija, sadarbība, iniciatīva, atlases procesu kvalitāte, termiņu ievērošana.
+Katrai versijai iekļauj 1 atvērto jautājumu.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p8ex')">Kopēt</button>
+</div>
 </div>
 </div>
 
@@ -491,6 +661,23 @@ Izveido 6 mēnešu individuālo attīstības plānu ar:
 - Mērāmiem rezultātu rādītājiem
 Formāts: tabula.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p9')">Kopēt</button>
+</div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p9ex">Balstoties uz šādu novērtēšanu:
+
+Darbinieks: vecākais grāmatvedis. Kopvērtējums: Labs.
+Sasniegumi: Directo ieviešana, mēneša slēgšanas optimizācija, mentorings.
+Pilnveidojamās jomas: termiņu kavēšana, prezentāciju prasmes.
+
+Izveido 6 mēnešu individuālo attīstības plānu ar:
+- 3 attīstības mērķiem
+- Konkrētām darbībām katram mērķim
+- Termiņiem un starpposmu pārbaudēm
+- Nepieciešamajiem resursiem (apmācības, mentorings, grāmatas)
+- Mērāmiem rezultātu rādītājiem
+Formāts: tabula.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p9ex')">Kopēt</button>
 </div>
 </div>
 </div>
@@ -516,6 +703,19 @@ SVARĪGI: Šis ir melnraksts konsultācijai ar juristu.
 Atsaucies uz Darba likuma attiecīgajiem pantiem.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p10')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p10ex">Sagatavo darba līguma klauzulas MELNRAKSTU latviski:
+
+Klauzulas veids: attālinātā darba nosacījumi
+Amats: personāla speciālists
+Nozare: ražošana
+Specifiskās prasības: hibrīds modelis (3 dienas birojā, 2 attālināti), darbinieks nodrošina darba vietu mājās, uzņēmums nodrošina portatīvo datoru
+
+SVARĪGI: Šis ir melnraksts konsultācijai ar juristu.
+Atsaucies uz Darba likuma attiecīgajiem pantiem.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p10ex')">Kopēt</button>
+</div>
 <div class="warning-box">MI ģenerētus līguma tekstus NEKAD neizmantojiet bez jurista pārskatīšanas.</div>
 </div>
 </div>
@@ -539,6 +739,22 @@ Iekļauj sadaļas:
 Piemēri: sociālo tīklu politika, attālinātā darba kārtība, trauksmes celšanas procedūra, datu aizsardzības paziņojums.</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p11')">Kopēt</button>
 </div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p11ex">Izstrādā sociālo tīklu politiku Latvijas ražošanas uzņēmumam (80 darbinieki).
+
+Iekļauj sadaļas:
+1. Mērķis un darbības joma
+2. Definīcijas
+3. Pamatnoteikumi (ko darbinieki drīkst un ko nedrīkst publicēt par uzņēmumu)
+4. Darbinieku pienākumi
+5. Vadības pienākumi
+6. Pārkāpumu sekas
+7. Spēkā stāšanās un pārskatīšana
+
+Tonis: profesionāls, bet saprotams ikvienam darbiniekam. Izvairīties no juridiskā žargona.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p11ex')">Kopēt</button>
+</div>
 </div>
 </div>
 
@@ -557,6 +773,20 @@ Noformē kā strukturētu sanāksmes protokolu:
 - Darbības punkti: KAS, KO, LĪDZ KURAM DATUMAM
 - Nākamā sanāksme</div>
 <button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p12')">Kopēt</button>
+</div>
+<div class="example-label">GATAVS PIEMĒRS — kopē un ielīmē</div>
+<div class="prompt-wrap">
+<div class="example-block" id="p12ex">Šeit ir neapstrādātas piezīmes no HR sanāksmes:
+
+dalībnieki anda, līga, mārtiņš. 15. augustā. runājām par to ka vajag jaunu personāla speciālistu jo līga aiziet decembrī. anda teica ka sludinājumu jāliek līdz septembra beigām. mārtiņš teica ka vajag arī pārskatīt algu gridu jo kandidāti pieprasa vairāk. vēl runājām par apmācību budžetu nākamajam gadam - anda lūdza mārtiņu sagatavot piedāvājumu līdz oktobrim. nākamā sanāksme 1. septembrī.
+
+Noformē kā strukturētu sanāksmes protokolu:
+- Datums, dalībnieki, sanāksmes vadītājs
+- Apspriestie jautājumi (numurēti)
+- Pieņemtie lēmumi
+- Darbības punkti: KAS, KO, LĪDZ KURAM DATUMAM
+- Nākamā sanāksme</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p12ex')">Kopēt</button>
 </div>
 </div>
 </div>
