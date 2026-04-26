@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MI darbnīca — Mākslīgais intelekts HR procesiem</title>
+<meta name="description" content="Promptu veidnes, fiktīvie CV un praktiski ieteikumi HR speciālistiem. Ilze Palmbaha, konference Darbinieku labumi 2026.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --dark:#0F2B3C;--primary:#0D7377;--accent:#14B8A6;
+  --light:#f0fafa;--warm:#D97706;--red:#DC2626;
+  --gray:#64748B;--border:#e2e8f0;--white:#ffffff;
+}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:linear-gradient(180deg,var(--light) 0%,var(--white) 35%);
+  color:var(--dark);min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* HEADER */
+.header{
+  background:var(--dark);
+  padding:36px 20px 28px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.header::before{
+  content:'';position:absolute;top:-60px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:rgba(13,115,119,0.15);
+}
+.header::after{
+  content:'';position:absolute;top:-20px;right:0;
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(20,184,166,0.1);
+}
+.header h1{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:28px;color:#fff;font-weight:400;
+  position:relative;z-index:1;
+}
+.header .sub{color:var(--accent);font-size:14px;margin-top:4px;position:relative;z-index:1;}
+.header .meta{color:#94a3b8;font-size:11px;margin-top:10px;position:relative;z-index:1;}
+
+/* TABS */
+.tabs{
+  position:sticky;top:0;z-index:100;
+  background:var(--white);
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:center;gap:6px;
+  flex-wrap:wrap;
+}
+.tab-btn{
+  padding:7px 18px;border-radius:20px;
+  font-size:13px;font-weight:500;
+  border:1px solid var(--border);
+  background:transparent;color:var(--gray);
+  cursor:pointer;transition:all .15s;
+  font-family:inherit;
+}
+.tab-btn.active{
+  background:var(--primary);color:#fff;
+  border-color:var(--primary);font-weight:700;
+}
+.tab-btn:hover:not(.active){background:#f8fafc;}
+
+/* CONTENT */
+.content{max-width:700px;margin:0 auto;padding:20px 16px 60px;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+.intro{font-size:13px;color:var(--gray);line-height:1.55;margin-bottom:18px;}
+.intro strong{color:var(--primary);}
+
+/* CATEGORY */
+.cat-header{
+  display:flex;align-items:center;gap:8px;
+  padding-bottom:8px;margin-bottom:12px;
+  border-bottom:2px solid var(--border);
+}
+.cat-header span.icon{font-size:20px;}
+.cat-header span.label{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:18px;font-weight:400;color:var(--dark);
+}
+.cat-group{margin-bottom:28px;}
+
+/* ACCORDION */
+.accordion{
+  background:#fff;border-radius:10px;
+  border:1px solid var(--border);
+  margin-bottom:10px;overflow:hidden;
+  transition:box-shadow .2s;
+}
+.accordion.open{box-shadow:0 4px 20px rgba(13,115,119,0.08);}
+.acc-toggle{
+  width:100%;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 16px;background:transparent;border:none;
+  cursor:pointer;font-family:'DM Serif Display',Georgia,serif;
+  font-size:15px;color:var(--dark);font-weight:400;
+}
+.acc-toggle .arrow{
+  color:var(--primary);font-size:16px;
+  transition:transform .2s;flex-shrink:0;
+}
+.accordion.open .arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 16px 16px;}
+.accordion.open .acc-body{display:block;}
+
+.prompt-label{
+  font-size:11px;font-weight:700;color:var(--accent);
+  letter-spacing:.05em;margin-bottom:6px;
+}
+.prompt-wrap{display:flex;align-items:flex-start;gap:8px;}
+.prompt-block{
+  flex:1;background:var(--light);border-radius:8px;
+  padding:12px 14px;font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;line-height:1.55;color:var(--dark);
+  white-space:pre-wrap;word-break:break-word;
+  border:1px solid #e0f0f0;
+}
+.copy-btn{
+  flex-shrink:0;padding:6px 14px;border-radius:6px;
+  font-size:12px;font-weight:600;
+  background:var(--primary);color:#fff;
+  border:none;cursor:pointer;transition:all .15s;
+  font-family:inherit;
+}
+.copy-btn:hover{background:#0a5f62;}
+.copy-btn.copied{background:#059669;}
+
+.warning-box{
+  margin-top:10px;padding:8px 12px;
+  border-left:4px solid var(--red);
+  background:#fef2f2;border-radius:0 6px 6px 0;
+  font-size:12px;font-weight:600;color:var(--red);
+}
+
+/* CV CARDS */
+.cv-card{
+  background:#fff;border-radius:10px;
+  border:1px solid var(--border);
+  margin-bottom:10px;overflow:hidden;
+}
+.cv-toggle{
+  width:100%;text-align:left;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;background:transparent;
+  border:none;cursor:pointer;font-family:inherit;
+}
+.cv-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cv-name{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:14px;color:var(--dark);flex:1;
+}
+.cv-tag{font-weight:400;color:var(--gray);font-size:12px;font-family:'DM Sans',sans-serif;}
+.cv-body{display:none;padding:0 16px 14px;}
+.cv-card.open .cv-body{display:block;}
+.cv-card.open .arrow{transform:rotate(180deg);}
+.cv-text{
+  flex:1;background:#f8fafc;border-radius:8px;
+  padding:12px 14px;font-family:'JetBrains Mono',monospace;
+  font-size:12px;line-height:1.5;color:var(--dark);
+  white-space:pre-wrap;border:1px solid var(--border);
+}
+.try-box{
+  margin-top:20px;padding:14px 16px;
+  background:var(--light);border-radius:10px;
+  border:1px solid #e0f0f0;
+}
+.try-box .t{font-size:13px;font-weight:700;color:var(--primary);margin-bottom:6px;}
+.try-box .d{font-size:12px;line-height:1.5;}
+
+/* TOOLS */
+.tool-card{
+  background:#fff;border-radius:10px;
+  border:1px solid var(--border);
+  padding:14px 16px;margin-bottom:10px;
+}
+.tool-name{font-size:15px;font-weight:700;margin-bottom:6px;}
+.tool-row{font-size:12px;line-height:1.5;margin-bottom:3px;}
+.tool-pro{color:#059669;font-weight:600;}
+.tool-con{color:var(--red);font-weight:600;}
+.tool-price{font-size:11px;color:var(--gray);}
+.tool-banner{
+  margin-top:20px;padding:14px 16px;
+  background:var(--primary);border-radius:10px;
+  color:#fff;font-size:13px;font-weight:600;line-height:1.5;
+}
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;}
+.spec-card{
+  background:#fffbeb;border-radius:8px;
+  padding:10px 12px;border:1px solid #fde68a;
+}
+.spec-card .n{font-size:13px;font-weight:700;}
+.spec-card .f{font-size:11px;color:var(--gray);}
+.spec-card .p{font-size:11px;color:var(--warm);font-weight:600;}
+
+/* SAFETY */
+.safety-card{
+  background:#fff;border-radius:10px;
+  border:1px solid var(--border);
+  margin-bottom:14px;overflow:hidden;
+}
+.safety-header{
+  padding:10px 16px;font-weight:700;font-size:14px;
+}
+.safety-items{padding:6px 16px 14px;}
+.safety-item{
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:12.5px;line-height:1.5;padding:5px 0;
+}
+.checkbox{
+  width:16px;height:16px;border:2px solid #d1d5db;
+  border-radius:3px;flex-shrink:0;margin-top:1px;
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.checkbox.checked{background:var(--primary);border-color:var(--primary);}
+.checkbox.checked::after{content:'✓';color:#fff;font-size:11px;font-weight:700;}
+.principle-box{
+  margin-top:24px;padding:16px;
+  background:#fef2f2;border-radius:10px;
+  border:1px solid #fecaca;text-align:center;
+}
+.principle-box .t{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:16px;color:var(--red);margin-bottom:4px;
+}
+.principle-box .d{font-size:14px;font-weight:600;}
+
+.section-title{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:16px;color:var(--dark);margin-bottom:12px;
+}
+.section-sub{font-size:12px;color:var(--gray);margin-bottom:14px;}
+
+.footer{
+  text-align:center;padding:20px 16px;
+  border-top:1px solid var(--border);
+  font-size:11px;color:#94a3b8;
+}
+
+@media(max-width:480px){
+  .header h1{font-size:24px;}
+  .tab-btn{padding:6px 12px;font-size:12px;}
+  .prompt-block{font-size:11.5px;padding:10px 12px;}
+  .spec-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>MI darbnīca</h1>
+  <div class="sub">Mākslīgais intelekts HR procesiem</div>
+  <div class="meta">Ilze Palmbaha · Konference «Darbinieku labumi 2026» · iFinanses</div>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab-btn active" onclick="switchTab(0)">Prompti</button>
+  <button class="tab-btn" onclick="switchTab(1)">CV piemēri</button>
+  <button class="tab-btn" onclick="switchTab(2)">Rīki</button>
+  <button class="tab-btn" onclick="switchTab(3)">Drošība</button>
+</div>
+
+<div class="content">
+
+<!-- ========== TAB 0: PROMPTS ========== -->
+<div class="tab-panel active" id="panel-0">
+<p class="intro">Atveriet promptu, nospiediet <strong>Kopēt</strong> un ielīmējiet Claude, ChatGPT vai Gemini. Teksts <strong>[KVADRĀTIEKAVĀS]</strong> ir maināmie lielumi — aizstājiet ar savu informāciju.</p>
+
+<!-- ATLASE -->
+<div class="cat-group">
+<div class="cat-header"><span class="icon">🔍</span><span class="label">Darbinieku atlase</span></div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Darba sludinājuma ģenerēšana</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p1">Uzraksti darba sludinājumu latviešu valodā šādam amatam:
+
+Amats: [AMATA NOSAUKUMS]
+Uzņēmums: [NOZARE], [DARBINIEKU SKAITS] darbinieki
+Atrašanās vieta: [PILSĒTA]
+Darba veids: [PILNA LAIKA / NEPILNA LAIKA / ATTĀLINĀTI / HIBRĪDS]
+Galvenās prasības: [PRASĪBA 1], [PRASĪBA 2], [PRASĪBA 3]
+Piedāvājam: [LABUMS 1], [LABUMS 2], [LABUMS 3]
+Algas diapazons: [SUMMA] EUR bruto
+Tonis: [PROFESIONĀLS / DRAUDZĪGS / RADOŠS]
+
+Strukturē sludinājumu ar sadaļām: Par uzņēmumu, Amata apraksts, Prasības, Mēs piedāvājam. Izmanto skaidru, konkrētu valodu bez žargona.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p1')">Kopēt</button>
+</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>CV atlases kritēriju matrica</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p2">Man ir [SKAITS] kandidātu CV amatam [AMATA NOSAUKUMS].
+Novērtē katru kandidātu pēc šādiem kritērijiem:
+
+1. [KRITĒRIJS 1, piemēram: pieredze nozarē 3+ gadi]
+2. [KRITĒRIJS 2, piemēram: konkrētas programmatūras zināšanas]
+3. [KRITĒRIJS 3, piemēram: valodu prasmes]
+4. [KRITĒRIJS 4]
+5. [KRITĒRIJS 5]
+
+Katram kritērijam piešķir vērtējumu: Atbilst / Daļēji atbilst / Neatbilst.
+Rezultātu noformē kā tabulu ar kopvērtējumu (1–10).
+Beigās norādi ieteikumu: kurus kandidātus aicināt uz interviju un kāpēc.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p2')">Kopēt</button>
+</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Intervijas jautājumi (STAR formāts)</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p3">Sagatavo 8 kompetencēs balstītus intervijas jautājumus amatam [AMATA NOSAUKUMS].
+
+Formāts: STAR (Situācija, Uzdevums, Darbība, Rezultāts).
+Iekļauj jautājumus par šādām kompetencēm:
+- Profesionālās zināšanas
+- Komandas darbs
+- Problēmu risināšana
+- Stresa noturība
+- [PAPILDU KOMPETENCE]
+
+Katram jautājumam pievieno:
+a) Ko vērtēt labā atbildē
+b) Ko vērtēt vājā atbildē
+c) Papildjautājumu padziļināšanai</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p3')">Kopēt</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="cat-group">
+<div class="cat-header"><span class="icon">📋</span><span class="label">Onboarding</span></div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Onboarding plāna ģenerēšana</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">SISTĒMAS PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p4">Tu esi Latvijas uzņēmuma HR speciālists. Uzņēmuma profils:
+- Nosaukums: [UZŅĒMUMA NOSAUKUMS]
+- Nozare: [NOZARE]
+- Darbinieku skaits: [SKAITS]
+
+Kad es norādu jauna darbinieka amatu un nodaļu, sagatavo:
+1) Nedēļu pa nedēļai onboarding plānu (pārbaudes laiks: [MĒNEŠI] mēneši)
+2) Katrai nedēļai: uzdevumi, atbildīgā persona, veiksmes kritēriji
+3) Pirmās dienas e-pastu jaunajam darbiniekam
+4) Mentora instrukciju
+Valoda: latviešu. Tonis: profesionāls, silts.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p4')">Kopēt</button>
+</div>
+<div class="prompt-label" style="margin-top:12px">LIETOTĀJA PIEPRASĪJUMS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p4b">Jauns darbinieks: [AMATS], [NODAĻA].
+Sākuma datums: [DATUMS].
+Tiešais vadītājs: [VĀRDS].
+Mentors: [VĀRDS].
+Sistēmas, kas jāapgūst: [SISTĒMA 1], [SISTĒMA 2].</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p4b')">Kopēt</button>
+</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Pirmās dienas e-pasts</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p5">Uzraksti sveiciena e-pastu jaunam darbiniekam latviski:
+
+Darbinieks: [VĀRDS] (amats: [AMATS])
+Pirmā darba diena: [DATUMS]
+Ierašanās laiks: [LAIKS]
+Kontaktpersona: [VĀRDS, AMATS]
+Ko ņemt līdzi: [DOKUMENTI]
+Apģērba kods: [BIZNESA / IKDIENAS]
+
+Tonis: silts, profesionāls, motivējošs.
+Iekļauj praktisku informāciju par pirmo dienu.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p5')">Kopēt</button>
+</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Iekšējo politiku Q&amp;A</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p6">Šeit ir mūsu uzņēmuma [POLITIKAS NOSAUKUMS]:
+[IELĪMĒT POLITIKAS TEKSTU]
+
+Atbildi uz jautājumiem par šo politiku tā, kā atbildētu HR speciālists jaunam darbiniekam. Izmanto vienkāršu, skaidru valodu. Ja politikā nav atbildes uz jautājumu, pasaki to tieši — neizdomā.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p6')">Kopēt</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- NOVĒRTĒŠANA -->
+<div class="cat-group">
+<div class="cat-header"><span class="icon">📊</span><span class="label">Novērtēšana</span></div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Novērtēšanas pārskata melnraksts</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p7">Sagatavo darbinieka novērtēšanas pārskatu latviski.
+
+Darbinieks: [AMATS], [NODAĻA]
+Novērtēšanas periods: [DATUMS] — [DATUMS]
+
+Galvenie sasniegumi:
+- [SASNIEGUMS 1]
+- [SASNIEGUMS 2]
+- [SASNIEGUMS 3]
+
+Pilnveidojamās jomas:
+- [JOMA 1]
+- [JOMA 2]
+
+Kopvērtējums: [IZCILS / LABI / ATBILST PRASĪBĀM / JĀPILNVEIDO]
+
+Struktūra:
+1) Ievads
+2) Sasniegumu analīze
+3) Pilnveidojamās jomas ar konstruktīviem ieteikumiem
+4) Mērķi nākamajam periodam
+5) Kopsavilkums
+Tonis: profesionāls, objektīvs, motivējošs.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p7')">Kopēt</button>
+</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>360° aptaujas ģenerēšana</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p8">Izveido 360° atgriezeniskās saites aptauju amatam [AMATA NOSAUKUMS].
+
+Sagatavo trīs versijas:
+a) Vadītāja vērtējums (8 jautājumi)
+b) Kolēģu vērtējums (6 jautājumi)
+c) Pašnovērtējums (6 jautājumi)
+
+Vērtēšanas skala: 1–5 (1 = nekad, 5 = vienmēr).
+Kompetences: komunikācija, sadarbība, iniciatīva, kvalitāte, termiņu ievērošana.
+Katrai versijai iekļauj 1 atvērto jautājumu.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p8')">Kopēt</button>
+</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Attīstības plāns no novērtēšanas</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p9">Balstoties uz šo novērtēšanas pārskatu:
+[IELĪMĒT PĀRSKATA TEKSTU]
+
+Izveido 6 mēnešu individuālo attīstības plānu ar:
+- 3–4 attīstības mērķiem
+- Konkrētām darbībām katram mērķim
+- Termiņiem un starpposmu pārbaudēm
+- Nepieciešamajiem resursiem (apmācības, mentorings, grāmatas)
+- Mērāmiem rezultātu rādītājiem
+Formāts: tabula.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p9')">Kopēt</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- HR DOKUMENTI -->
+<div class="cat-group">
+<div class="cat-header"><span class="icon">📄</span><span class="label">HR dokumenti</span></div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Darba līguma klauzulas</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p10">Sagatavo darba līguma klauzulas MELNRAKSTU latviski:
+
+Klauzulas veids: [NEKONKURĒŠANA / KONFIDENCIALITĀTE / PĀRBAUDES LAIKS / ATTĀLINĀTAIS DARBS / INTELEKTUĀLAIS ĪPAŠUMS]
+Amats: [AMATA NOSAUKUMS]
+Nozare: [NOZARE]
+Specifiskās prasības: [APRAKSTS]
+
+SVARĪGI: Šis ir melnraksts konsultācijai ar juristu.
+Atsaucies uz Darba likuma attiecīgajiem pantiem.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p10')">Kopēt</button>
+</div>
+<div class="warning-box">MI ģenerētus līguma tekstus NEKAD neizmantojiet bez jurista pārskatīšanas.</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Iekšējo politiku dokumenti</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p11">Izstrādā [POLITIKAS NOSAUKUMS] Latvijas uzņēmumam ([NOZARE], [SKAITS] darbinieki).
+
+Iekļauj sadaļas:
+1. Mērķis un darbības joma
+2. Definīcijas
+3. Pamatnoteikumi
+4. Darbinieku pienākumi
+5. Vadības pienākumi
+6. Pārkāpumu sekas
+7. Spēkā stāšanās un pārskatīšana
+
+Piemēri: sociālo tīklu politika, attālinātā darba kārtība, trauksmes celšanas procedūra, datu aizsardzības paziņojums.</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p11')">Kopēt</button>
+</div>
+</div>
+</div>
+
+<div class="accordion" onclick="toggleAcc(this)">
+<button class="acc-toggle"><span>Sanāksmju protokoli</span><span class="arrow">▾</span></button>
+<div class="acc-body">
+<div class="prompt-label">PROMPTS</div>
+<div class="prompt-wrap">
+<div class="prompt-block" id="p12">Šeit ir neapstrādātas piezīmes no HR sanāksmes:
+[IELĪMĒT PIEZĪMES]
+
+Noformē kā strukturētu sanāksmes protokolu:
+- Datums, dalībnieki, sanāksmes vadītājs
+- Apspriestie jautājumi (numurēti)
+- Pieņemtie lēmumi
+- Darbības punkti: KAS, KO, LĪDZ KURAM DATUMAM
+- Nākamā sanāksme</div>
+<button class="copy-btn" onclick="event.stopPropagation();copyText(this,'p12')">Kopēt</button>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- ========== TAB 1: CVs ========== -->
+<div class="tab-panel" id="panel-1">
+<p class="intro">Fiktīvi CV darbnīcas demonstrācijai. Nokopējiet un ielīmējiet MI rīkā kopā ar atlases kritērijiem.</p>
+<p style="font-size:11px;color:var(--red);font-weight:600;margin-bottom:18px;">Visi vārdi, uzņēmumi un kontaktdati ir izdomāti.</p>
+
+<div class="cv-card" onclick="toggleCV(this)">
+<button class="cv-toggle"><span class="cv-dot" style="background:#059669"></span><span class="cv-name">Laura Bērziņa <span class="cv-tag">— A, spēcīga kandidāte</span></span><span class="arrow" style="color:var(--primary)">▾</span></button>
+<div class="cv-body"><div class="prompt-wrap"><div class="cv-text" id="cv1">Grāmatvede | Rīga
+
+PIEREDZE:
+Galvenā grāmatvede — SIA «NordFinance» (2019–2026)
+- Pilna grāmatvedības uzskaite 45 darbinieku uzņēmumam
+- Gada pārskatu sagatavošana, VID deklarācijas, PVN aprēķini
+- Directo ieviešana un darbinieku apmācība sistēmā
+- Iekšējo procesu optimizācija, samazinot mēneša slēgšanas laiku par 40%
+
+Grāmatvede — SIA «RīgaTrade» (2016–2019)
+- Debitoru un kreditoru uzskaite, bankas operāciju apstrāde
+- Algu aprēķins 25 darbiniekiem
+- Pāreja no 1C uz Directo — aktīva dalība projektā
+
+IZGLĪTĪBA: Mg. oec. — LU, Grāmatvedība un audits (2016). ACCA — 9/13 eksāmeni.
+
+PRASMES: Directo (eksperte), 1C (pieredzējusi), Excel (augsts līmenis), Power BI (pamati)
+Valodas: LV (dzimtā), EN (C1), RU (B2)</div><button class="copy-btn" onclick="event.stopPropagation();copyText(this,'cv1')">Kopēt</button></div></div>
+</div>
+
+<div class="cv-card" onclick="toggleCV(this)">
+<button class="cv-toggle"><span class="cv-dot" style="background:#0D7377"></span><span class="cv-name">Mārtiņš Kalniņš <span class="cv-tag">— B, labs kandidāts</span></span><span class="arrow" style="color:var(--primary)">▾</span></button>
+<div class="cv-body"><div class="prompt-wrap"><div class="cv-text" id="cv2">Grāmatvedis | Jelgava
+
+PIEREDZE:
+Grāmatvedis — SIA «AgroPro» (2021–2026)
+- Grāmatvedības uzskaite lauksaimniecības uzņēmumam
+- PVN deklarācijas, gada pārskati, inventarizācija
+- 1C un Directo paralēla lietošana pārejas periodā
+
+Grāmatveža palīgs — SIA «BalticBooks» (2019–2021)
+- Pirmdokumentu apstrāde, datu ievade 1C
+- Debitoru un kreditoru saskaņošana
+
+IZGLĪTĪBA: Bc. oec. — Banku augstskola, Finanses (2019). LRGA sertificēts grāmatvedis (2022).
+
+PRASMES: 1C (eksperts), Directo (vidējs līmenis), Excel (labs līmenis)
+Valodas: LV (dzimtā), EN (B2)</div><button class="copy-btn" onclick="event.stopPropagation();copyText(this,'cv2')">Kopēt</button></div></div>
+</div>
+
+<div class="cv-card" onclick="toggleCV(this)">
+<button class="cv-toggle"><span class="cv-dot" style="background:#DC2626"></span><span class="cv-name">Aleksejs Petrovs <span class="cv-tag">— C, vājš kandidāts</span></span><span class="arrow" style="color:var(--primary)">▾</span></button>
+<div class="cv-body"><div class="prompt-wrap"><div class="cv-text" id="cv3">Grāmatvedis | Rīga
+
+PIEREDZE:
+Grāmatvedis — SIA «QuickService» (2024–2026)
+- Primāro dokumentu apstrāde
+- Bankas izrakstu importēšana
+- PVN deklarāciju sagatavošanas palīdzība
+
+Biroja administrators — SIA «MediaGroup» (2022–2024)
+- Biroja administrēšana, dokumentu aprite
+- Finanšu dokumentu arhivēšana
+
+IZGLĪTĪBA: Bc. oec. — RTU, Uzņēmējdarbība (2022). Grāmatvedības pamatkurss — BDA (2023, 40 h).
+
+PRASMES: Excel (pamati), 1C (pamati — apgūst)
+Valodas: LV (dzimtā)</div><button class="copy-btn" onclick="event.stopPropagation();copyText(this,'cv3')">Kopēt</button></div></div>
+</div>
+
+<div class="cv-card" onclick="toggleCV(this)">
+<button class="cv-toggle"><span class="cv-dot" style="background:#7C3AED"></span><span class="cv-name">Inga Liepiņa <span class="cv-tag">— D, pārkvalificēta</span></span><span class="arrow" style="color:var(--primary)">▾</span></button>
+<div class="cv-body"><div class="prompt-wrap"><div class="cv-text" id="cv4">Finanšu direktore | Rīga
+
+PIEREDZE:
+Finanšu direktore — AS «TechBaltic» (2018–2025)
+- Finanšu stratēģijas izstrāde un ieviešana
+- 120 darbinieku uzņēmuma budžeta pārvaldība (EUR 8M apgrozījums)
+- Konsolidētie pārskati grupas līmenī (3 meitas uzņēmumi)
+- ERP sistēmas (SAP) ieviešanas vadība
+
+Galvenā grāmatvede — SIA «FinConsult» (2012–2018)
+- Grāmatvedības ārpakalpojumi 15+ klientiem
+- Audita atbalsts, transfertcenu dokumentācija
+
+IZGLĪTĪBA: MBA — SSE Riga (2017). Mg. oec. — LU (2012). ACCA Fellow (FCCA).
+
+PRASMES: SAP, Directo, 1C, Excel/Power BI (eksperte)
+Valodas: LV (dzimtā), EN (C2), RU (C1), DE (B1)</div><button class="copy-btn" onclick="event.stopPropagation();copyText(this,'cv4')">Kopēt</button></div></div>
+</div>
+
+<div class="cv-card" onclick="toggleCV(this)">
+<button class="cv-toggle"><span class="cv-dot" style="background:#D97706"></span><span class="cv-name">Anna Ozoliņa <span class="cv-tag">— E, karjeras mainītāja</span></span><span class="arrow" style="color:var(--primary)">▾</span></button>
+<div class="cv-body"><div class="prompt-wrap"><div class="cv-text" id="cv5">Projektu vadītāja → Grāmatvede | Rīga
+
+PIEREDZE:
+Projektu vadītāja — SIA «EventPro» (2020–2026)
+- Pasākumu budžetu plānošana un kontrole (līdz EUR 200K)
+- Piegādātāju rēķinu apstrāde un saskaņošana
+- Finanšu atskaites vadībai
+
+Klientu menedžere — SIA «AdAgency» (2017–2020)
+- Klientu budžetu administrēšana
+- Rēķinu izrakstīšana un debitoru kontrole
+
+IZGLĪTĪBA: Bc. soc. — RSU, Komunikācija (2017). Grāmatvedības prof. programma — RISEBA (2025, 480 h). Directo lietotāja kurss (2025, 24 h).
+
+PRASMES: Directo (pamati+), Excel (labs līmenis), Google Sheets
+Valodas: LV (dzimtā), EN (C1), RU (A2)</div><button class="copy-btn" onclick="event.stopPropagation();copyText(this,'cv5')">Kopēt</button></div></div>
+</div>
+
+<div class="try-box">
+<div class="t">Izmēģini pats</div>
+<div class="d">1. Nokopē visus 5 CV<br>2. Ielīmē Claude vai ChatGPT<br>3. Pievieno: <em>«Novērtē šos kandidātus grāmatveža amatam pēc šādiem kritērijiem: pieredze 3+ gadi, Directo zināšanas, LR likumdošana, valodas LV+EN. Rezultātu noformē kā tabulu.»</em></div>
+</div>
+</div>
+
+<!-- ========== TAB 2: TOOLS ========== -->
+<div class="tab-panel" id="panel-2">
+<div class="section-title">Universālie MI rīki</div>
+<p class="section-sub">Bez budžeta, sāc šodien</p>
+
+<div class="tool-card">
+<div class="tool-name">Claude (Anthropic)</div>
+<div class="tool-row"><span class="tool-pro">+</span> Labākais latviešu valodai, dokumentu analīzei, drošākais datu ziņā</div>
+<div class="tool-row"><span class="tool-con">−</span> Nav reāllaika interneta meklēšanas pamata versijā</div>
+<div class="tool-price">Bezmaksas (ierobežots); Pro: ~$20/mēn. → <a href="https://claude.ai" target="_blank" style="color:var(--primary)">claude.ai</a></div>
+</div>
+
+<div class="tool-card">
+<div class="tool-name">ChatGPT (OpenAI)</div>
+<div class="tool-row"><span class="tool-pro">+</span> Plašākā ekosistēma, papildinājumi, labi latviski</div>
+<div class="tool-row"><span class="tool-con">−</span> Datu privātuma bažas, biežāk halucinē juridiskos tekstos</div>
+<div class="tool-price">Bezmaksas (ierobežots); Plus: $20/mēn. → <a href="https://chat.openai.com" target="_blank" style="color:var(--primary)">chat.openai.com</a></div>
+</div>
+
+<div class="tool-card">
+<div class="tool-name">Gemini (Google)</div>
+<div class="tool-row"><span class="tool-pro">+</span> Google Workspace integrācija, spēcīga bezmaksas versija</div>
+<div class="tool-row"><span class="tool-con">−</span> Latviešu valoda vājāka</div>
+<div class="tool-price">Bezmaksas; Advanced: $20/mēn. → <a href="https://gemini.google.com" target="_blank" style="color:var(--primary)">gemini.google.com</a></div>
+</div>
+
+<div class="tool-banner">50 cilvēku uzņēmumam: Claude + labi prompti = ~70% vērtības par 0% izmaksām.</div>
+
+<div class="section-title" style="margin-top:28px">Specializētās platformas</div>
+<p class="section-sub">Paredzētas lielākiem uzņēmumiem (100+ darbinieki), angļu valodā</p>
+
+<div class="spec-grid">
+<div class="spec-card"><div class="n">BambooHR</div><div class="f">Onboarding, HRIS</div><div class="p">~$6–25/darb./mēn.</div></div>
+<div class="spec-card"><div class="n">Lattice</div><div class="f">Novērtēšana, OKR</div><div class="p">~$11/darb./mēn.</div></div>
+<div class="spec-card"><div class="n">HireVue</div><div class="f">Video intervijas</div><div class="p">Pēc pieprasījuma</div></div>
+<div class="spec-card"><div class="n">Talmundo</div><div class="f">Onboarding</div><div class="p">Pēc pieprasījuma</div></div>
+</div>
+</div>
+
+<!-- ========== TAB 3: SAFETY ========== -->
+<div class="tab-panel" id="panel-3">
+<p class="intro">Kontrolsaraksts pirms MI izmantošanas HR procesos.</p>
+
+<div class="safety-card">
+<div class="safety-header" style="border-left:4px solid #DC2626;color:#DC2626">Personas dati (VDAR)</div>
+<div class="safety-items">
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Nekad neielīmēju īstus vārdus, personas kodus, kontaktdatus publiskos MI rīkos</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Anonimizēju CV pirms MI analīzes: «Kandidāts A», «Kandidāts B»</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Ja uzņēmums lieto MI regulāri — apsveriet Enterprise versiju ar datu aizsardzību</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Informēju kandidātus, ja MI tiek izmantots atlases procesā</span></div>
+</div>
+</div>
+
+<div class="safety-card">
+<div class="safety-header" style="border-left:4px solid #D97706;color:#D97706">Aizspriedumi (bias)</div>
+<div class="safety-items">
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>MI reproducē manu promptu aizspriedumus — pārbaudu kritērijus</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Nelietoju MI kā vienīgo lēmumu pieņēmēju atlasē</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Regulāri pārskatīšu, vai MI ieteikumi nav diskriminējoši</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Iekļauju dažādības perspektīvu atlases kritērijos</span></div>
+</div>
+</div>
+
+<div class="safety-card">
+<div class="safety-header" style="border-left:4px solid #7C3AED;color:#7C3AED">Halucinācijas un kļūdas</div>
+<div class="safety-items">
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>MI var izdomāt neesošus likuma pantus — vienmēr pārbaudu juridiskos tekstus</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>MI ģenerētus līguma tekstus pārskata jurists</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Pārbaudu faktus, datumus un skaitļus MI izvadē</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Nepaļaujos uz MI kā uz juridisku konsultantu</span></div>
+</div>
+</div>
+
+<div class="safety-card">
+<div class="safety-header" style="border-left:4px solid #0369A1;color:#0369A1">ES MI akts (2026–2027)</div>
+<div class="safety-items">
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Darbinieku atlase ir klasificēta kā «augsta riska» MI izmantošana</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Prasīs cilvēka uzraudzību, pārskatāmību un dokumentēšanu</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Sagatavojos: dokumentēju, kur un kā lietoju MI HR procesos</span></div>
+<div class="safety-item"><span class="checkbox" onclick="event.stopPropagation();this.classList.toggle('checked')"></span><span>Sekoju likumdošanas attīstībai — prasības var mainīties</span></div>
+</div>
+</div>
+
+<div class="principle-box">
+<div class="t">Galvenais princips</div>
+<div class="d">MI gatavo melnrakstu. Cilvēks apstiprina. Nekad otrādi.</div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">Ilze Palmbaha · KIMMA Academy · 2026</div>
+
+<script>
+function switchTab(n){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleAcc(el){
+  if(el.classList.contains('open')){el.classList.remove('open');}
+  else{el.classList.add('open');}
+}
+function toggleCV(el){
+  if(el.classList.contains('open')){el.classList.remove('open');}
+  else{el.classList.add('open');}
+}
+async function copyText(btn,id){
+  const text=document.getElementById(id).textContent;
+  try{await navigator.clipboard.writeText(text);}
+  catch(e){
+    const ta=document.createElement('textarea');ta.value=text;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  btn.textContent='Nokopēts';btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent='Kopēt';btn.classList.remove('copied');},2000);
+}
+</script>
+</body>
+</html>
